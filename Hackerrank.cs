@@ -38,7 +38,7 @@ namespace CrackingCoding
             return pares;
         }
 
-        //CountingValleys
+        //Counting Valleys
         static int countingValleys(int n, string s) {
             int level = 0;
             int valleyCount = 0;
@@ -76,6 +76,46 @@ namespace CrackingCoding
             return numJumps; //because we always count one more jump at while exit
         }
 
+        //Repeated String
+        static long repeatedString(string s, long n) {
+            long count = 0;
+
+            if (n >= s.Length) //there's repetition 
+            {
+                //calculate repetitions in base string
+                foreach (char c in s)
+                {
+                    if (c.Equals('a'))
+                    {
+                        count++;
+                    }
+                }
+
+                //multiply occurencies by factor
+                long multiplyfactor = n / s.Length;
+                count =  count * multiplyfactor;
+
+                //deal with remaining substring, if it exists
+                long remainder = n % s.Length;
+                foreach (char c in s.Substring(0,(int)remainder))
+                {
+                    if (c.Equals('a'))
+                    {
+                        count++;
+                    }
+                }
+            } else //we just count on the substring
+            {
+                foreach (char c in s.Substring(0,(int)n))
+                {
+                    if (c.Equals('a'))
+                    {
+                        count++;
+                    }
+                }
+            } 
+            return count;
+        }
         #endregion
 
     }
