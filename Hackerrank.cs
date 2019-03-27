@@ -118,5 +118,56 @@ namespace CrackingCoding
         }
         #endregion
 
+        #region Arrays
+        //2D Array - DS
+        static int hourglassSum(int[][] arr) {
+            int currentHourglass = 0;
+            int maxHourglass = -9 * 7; //We start maximum as the minimum hourglass possible
+
+            for (int i = 0; i < 4; i++) //To mount and hourglass we go just to the 4th pos of i
+            {
+                for (int j = 0; j < 4; j++) //The same above applies to j
+                {
+                    //Mount Hourglass
+                    currentHourglass = 
+                        arr[i][j]   + arr[i][j+1]   + arr[i][j+2] + 
+                                      arr[i+1][j+1] +
+                        arr[i+2][j] + arr[i+2][j+1] + arr[i+2][j+2];
+                    //update max if current is bigger
+                    if(currentHourglass > maxHourglass)
+                    {
+                        maxHourglass = currentHourglass;
+                    }
+                }
+            }
+
+            return maxHourglass;
+        }
+
+        // Left Rotation
+        static int[] rotLeft(int[] a, int d) {
+            int[] rotatedArray = new int[a.Length]; //array that will receive rotated ints
+            
+            for (int i = 0; i < a.Length ; i++) { //foreach item in array, execute d left rotations and put in right position
+                int currentItem = a[i];
+                int position = 0;
+
+                if (i - d >= 0) //if result position after rotation is >0 we know where to put it on array
+                {
+                    position = i - d;
+                    
+                } else //however, if the above result is negative, we should go |i-d| ==> d-i spaces back from last position (size)
+                {
+                    position = a.Length - (d - i);
+                }
+
+                rotatedArray[position] = currentItem;
+               
+            }
+
+            return rotatedArray;
+        }
+        #endregion
+
     }
 }
