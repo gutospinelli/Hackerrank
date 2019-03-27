@@ -162,11 +162,63 @@ namespace CrackingCoding
                 }
 
                 rotatedArray[position] = currentItem;
-               
             }
 
             return rotatedArray;
         }
+
+        //New Year Chaos
+        static void minimumBribes(int[] q) {
+        //idea: no person can be more than 2 pos in front of its value/sticker
+        //if a person is more than 2 pos in front, stop and print "too chaotic"
+        //if a person is in fronf of it's value/sticker count the # of bribes: 1 or 2
+        //if a person is behind value pos, ignore. This person has been bribed
+
+            int swaps = 0;
+            bool chaotic = false;
+
+            for (int i = 0; i < q.Length; i++)
+            {
+                //person value/sticker = q[i]
+                //person position = i+1 (arrays have 0 index)
+                if (i + 1 < q[i]) { //a bribe has occured!
+                    if (q[i] - i + 1 > 2) //if more than 2 pos ahead... cheater!
+                    {
+                        chaotic = true;
+                        break;
+                    }
+                    
+                }
+            }
+
+            if (!chaotic)
+            {
+                //bublesort and count # of swaps
+                int temp;
+                for (int j = 0; j <= q.Length - 2; j++) {
+                    for (int i = 0; i <= q.Length - 2; i++) {
+                       if (q[i] > q[i + 1]) {
+                          temp= q[i + 1];
+                          q[i + 1] = q[i];
+                          q[i] = temp;
+                          swaps += 1;
+                    
+                       }
+                    }
+                }
+            }
+            
+
+            if (chaotic)
+            {
+                Console.WriteLine("Too chaotic");
+            } else
+            {
+                Console.WriteLine(swaps);
+            }
+
+        }
+
         #endregion
 
     }
