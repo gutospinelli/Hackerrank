@@ -168,6 +168,7 @@ namespace CrackingCoding
         }
 
         //New Year Chaos
+        //Received timeout on hackerhank
         static void minimumBribes(int[] q) {
         //idea: no person can be more than 2 pos in front of its value/sticker
         //if a person is more than 2 pos in front, stop and print "too chaotic"
@@ -218,8 +219,72 @@ namespace CrackingCoding
             }
 
         }
+        static void minimumBribes2(int[] q) {
 
-        #endregion
+            int bribes = 0 ; 
+
+            //we compare always 3 values since no one can go more than 2 steps further/ahead
+            int mid = int.MaxValue;
+            int max =  int.MaxValue;
+            int min =  int.MaxValue;
+
+            for(int i=q.Length-1 ; i >= 0 ; i--){ //we start backwards
+                if((q[i]-i) > 3 ) { //if ((value - (pos-1)) > 3) more than 2 positions ahead. Cheater!
+                    Console.WriteLine("Too chaotic");
+                    return;
+                }
+                else{
+                    if(q[i] > max){ //if value > max, not possible!
+                         Console.WriteLine("Too chaotic");
+                         return;
+                    }
+                    else if(q[i] > mid){  //if value > mid, moved 2 pos
+                        bribes=bribes+2;
+                    }
+                    else if(q[i] > min){
+                        bribes=bribes+1; //if value > min, moved just 1 pos
+                    }
+
+                    if(q[i]<min){ //if value < min, update max, mid and min
+                        max=mid;
+                        mid=min;
+                        min = q[i];
+                    }
+                    else if(q[i]<mid){ //if value < mid, update max and mid (we know it's > min, so it stays the min)
+                        max=mid;
+                        mid = q[i];
+                    }
+                    else if(q[i]<max){ //if value < max, update only max (we know it's > min and mid)
+                        max = q[i];
+                    }
+                }
+            }
+            Console.WriteLine(bribes);
+        }
+
+        //Minimum Swaps 2
+        static int minimumSwaps(int[] arr) {       
+            int n = arr.Length - 1;
+            int minSwaps = 0;
+            for (int i = 0; i < n; i++) {
+                if (i < arr[i] - 1) {
+                    swap(arr, i, Math.Min(n, arr[i] - 1));
+                    minSwaps++;
+                    i--;
+                }
+            }
+            return minSwaps;
+        }
+        private static void swap(int[] array, int i, int j) {
+            int temp = array[i];
+            array[i] = array[j];
+            array[j] = temp;
+        }
+
+#endregion
+
+
+
 
     }
 }
