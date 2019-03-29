@@ -281,7 +281,68 @@ namespace CrackingCoding
             array[j] = temp;
         }
 
-#endregion
+        //Array Manipulation
+        static long arrayManipulation(int n, int[][] queries) {
+        //idea: go adding values to the array and updating max if necessary. Return max
+            long max = long.MinValue;
+            int a, b;
+            long k; 
+            long[] arr = new long[n];
+
+            for (int i = 0; i < queries.GetLength(0); i++)  //Dimension 0 contains number of lines
+            {
+                    //each queries[i] contains three integers, a, b, and k.
+                    a = queries[i][0];
+                    b = queries[i][1];
+                    k = queries[i][2];
+
+                    while (a<=b)
+                    {
+                        //we always update at index a-1 because this arrays are 1-indexed.
+                        arr[a-1] = arr[a-1] + k;
+                        if (arr[a-1] > max) //if a new max found
+                        {
+                            max = arr[a-1]; //update max
+                        }
+                        a++;
+                    }
+            }
+            return max;
+        }
+
+        static long arrayManipulationSlopeSolution(int n, int[][] queries) {
+        //idea: instead of adding value to array, we control where it started do climb (a) and where it stopped (b+1). A.K.A Slope increase
+            long max = 0;
+            long tempMax = 0;
+            int a, b;
+            long k; 
+            long[] arr = new long[n+1]; //to make 1-indexed array possible
+
+            for (int i = 0; i < queries.GetLength(0); i++)  //Dimension 0 contains number of lines
+            {
+                    //each queries[i] contains a, b, and k.
+                    a = queries[i][0];
+                    b = queries[i][1];
+                    k = queries[i][2];
+
+                    arr[a] = arr[a] + k; //slope starts at A pos, so we ADD there
+                    if (b+1 <= n) //if in next position after the slope stops B+1 we do not go out of bounds...
+                    {
+                        //we mark that the slope stopped by SUBTRACTING at b+1 
+                        arr[b+1] = arr[b+1] - k; 
+                    }
+            }
+            
+            //To find the max value we just add the POSITIVE slopes that contributed to max
+            for(int i=1; i<=n; i++)
+            {
+                tempMax += arr[i]; 
+                if(tempMax > max) max = tempMax;
+            }
+            return max;
+        }
+
+        #endregion
 
 
 
