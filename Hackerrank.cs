@@ -344,6 +344,142 @@ namespace CrackingCoding
 
         #endregion
 
+        #region Dictionaries and Hashmaps
+
+        //HashTables: Ransom Note
+        static void checkMagazine(string[] magazine, string[] note) {
+            Dictionary<string, int> dMagazine = new Dictionary<string, int>();
+            Dictionary<string, int> dNote = new Dictionary<string, int>();
+            string canReplicate = "Yes";
+
+            foreach (string s in magazine)
+            {
+                //we fill magazine dict with words and count number of times it appears
+                if(dMagazine.ContainsKey(s))
+                {
+                    dMagazine[s] = dMagazine[s] + 1;
+                } else
+                {
+                    dMagazine.Add(s, 1);
+                }
+                
+            }
+
+            foreach (string s in note)
+            {
+                //we do the same for note dict.
+                if(dNote.ContainsKey(s))
+                {
+                    dNote[s] = dNote[s] + 1;
+                } else
+                {
+                    dNote.Add(s, 1);
+                }
+            }
+
+            //if the magazine doesn't have as many words as the note needs... no!
+            if (dNote.Count > dMagazine.Count)
+            {
+                canReplicate = "No";
+            }
+            else
+            {
+                foreach (var key in dNote.Keys)
+                {
+                    if(dMagazine.ContainsKey(key))
+                    {
+                        //if dNote need more occurencies of a particular word than magazine has, no!
+                        if (dNote[key] > dMagazine[key])
+                        {
+                            canReplicate = "No";
+                            break;
+                        }    
+
+                    }
+                    else
+                    {
+                        //if one of the words are not found, print no and stops
+                        canReplicate = "No";
+                        break;
+                    }
+                }
+            }
+
+            Console.WriteLine(canReplicate);
+
+        }
+        
+        //Two Strings
+        static string twoStrings(string s1, string s2) {
+            
+            Dictionary<char,int> dict1 = new Dictionary<char, int>();
+            Dictionary<char,int> dict2 = new Dictionary<char, int>();
+
+            String containsSub = "NO";
+
+            //THe problem points that a single char counts as a substring. So we can divide strings in dicts of chars and see of at least
+            //one of them is present on the other one
+            foreach (char c in s1.Trim())
+            {
+                if(!dict1.ContainsKey(c))
+                {
+                    dict1.Add(c,1);
+                }
+            }
+
+            foreach (char c in s2.Trim())
+            {
+                if(!dict2.ContainsKey(c))
+                {
+                    dict2.Add(c,1);
+                }
+            }
+
+            foreach (var key in dict2.Keys)
+            {
+                if (dict1.ContainsKey(key))
+                {
+                    containsSub = "YES";
+                    break;
+                }
+            }
+
+            return containsSub;
+
+        }
+        
+        //Sherlock and Anagrams
+        static int sherlockAndAnagrams(string s) {
+            int numberOfAnagrams = 0;
+            string subStr;
+                     
+            Dictionary<string,int> dict = new Dictionary<string, int>();
+
+            for(int i = 0; i < s.Length; i++)
+            {
+                for (int j = 1; j < s.Length - i + 1; j++)
+                {
+                    subStr = s.Substring(i,j);
+                    char[] chars = subStr.ToCharArray();
+                    Array.Sort(chars);
+                    subStr = new string (chars);
+
+                    if(dict.ContainsKey(subStr))
+                    {
+                        numberOfAnagrams = numberOfAnagrams + dict[subStr];
+                        dict[subStr] = dict[subStr] + 1;
+                    } else
+                    {
+                        dict.Add(subStr,1);
+                    }
+                }
+            }
+
+            return numberOfAnagrams;
+
+        }
+
+        #endregion
 
 
 
