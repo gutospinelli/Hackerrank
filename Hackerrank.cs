@@ -479,6 +479,103 @@ namespace CrackingCoding
 
         }
 
+        //Count Triplets
+        static long countTriplets(List<long> arr, long r) {
+            long xi; //expected i
+            long xj; //Xpected j
+            long xk; //Xpected k
+            long count = 0;
+
+            arr.Sort();
+
+            for (int i = 0; i < arr.Count; i++)
+            {
+                xi = arr[i];
+                xj = xi * r;
+                xk = xj * r;
+
+                for (int j = i+1; j < arr.Count; j++)
+                {
+                    //if we found the expected j, we try to get k
+                    if(arr[j] == xj)
+                    {
+                        for (int k = j+1; k < arr.Count; k++)
+                        {
+                            if (arr[k] == xk) //we found xi, xj and xk. Gotcha! Count!
+                            {
+                                count++;
+                            }
+                        }
+                    }
+                }
+
+            }
+
+            return count;
+
+        }
+
+        static long countTripletsOptimized(List<long> arr, long r) {
+            long xi; //expected i
+            long xj; //Xpected j
+            long xk; //Xpected k
+            long count = 0;
+
+            Dictionary<long,long> dict = new Dictionary<long, long>();
+
+            foreach (long l in arr)
+            {
+                if(dict.ContainsKey(l))
+                {
+                    dict[l] = dict[l] + 1; //Sum new occurency
+                } else
+                {
+                    dict.Add(l,1); //add 1st occurency
+                }
+            }
+
+            foreach (var key in dict.Keys)
+            {
+                xi = key;
+                xj = xi * r;
+                xk = xj * r;
+
+                //if we find a progression triplet
+                if (dict.ContainsKey(xj) && dict.ContainsKey(xk)) 
+                {
+                    //we count and multiply recurrent occurencies
+                    count = count + (dict[xi] * dict[xj] * dict[xk]); 
+                }
+            }           
+
+            return count;
+
+        }
+
+        static long countTripletsOptimized2(List<long> arr, long r) {
+            Dictionary<long,long> xj = new Dictionary<long, long>(); //Xpected js
+            Dictionary<long,long> xk = new Dictionary<long, long>(); //Xpected ks
+            long count = 0;
+            //1st triplet indice "i"
+            foreach (long key in arr)
+            {
+                //3rd triplet indice "k"
+                if (xk.ContainsKey(key))
+                    count += xk[key];
+                if (xj.ContainsKey(key))
+                    if (xk.ContainsKey(key*r))
+                        xk[key*r] += xj[key];
+                    else
+                        xk[key*r] = xj[key];
+                //2nd triplet indice "j" 
+                if (xj.ContainsKey(key*r))
+                    xj[key*r]++;
+                else
+                    xj[key*r] = 1;
+            }
+            return count; 
+
+        }
         #endregion
 
 
