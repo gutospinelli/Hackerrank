@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace CrackingCoding
 {
@@ -552,7 +553,7 @@ namespace CrackingCoding
 
         }
 
-        static long countTripletsOptimized2(List<long> arr, long r) {
+        static long countTripletsOptimized2(List<long> arr, long r)         {
             Dictionary<long,long> xj = new Dictionary<long, long>(); //Xpected js
             Dictionary<long,long> xk = new Dictionary<long, long>(); //Xpected ks
             long count = 0;
@@ -561,7 +562,8 @@ namespace CrackingCoding
             {
                 //3rd triplet indice "k"
                 if (xk.ContainsKey(key))
-                    count += xk[key];
+                    count +
+= xk[key];
                 if (xj.ContainsKey(key))
                     if (xk.ContainsKey(key*r))
                         xk[key*r] += xj[key];
@@ -576,9 +578,196 @@ namespace CrackingCoding
             return count; 
 
         }
+        
+        //Frequency Queries
+        static List<int> freqQuery(List<List<int>> queries) {
+            List<int> ret = new List<int>();
+
+            //dict to keep numbers and frequencies
+            Dictionary<int,int> dict = new Dictionary<int, int>();
+
+            foreach (List<int> l in queries)
+            {
+                switch (l[0])
+                {   case 1: //Add new or 1
+                        if(dict.ContainsKey(l[1]))
+                        {
+                            dict[l[1]] = dict[l[1]] + 1;
+                        } else
+                        {
+                            dict.Add(l[1], 1); //1st occurence
+                        }
+                        break;
+                    case 2: //Remove 1
+                        if(dict.ContainsKey(l[1]))
+                        {
+                            if(dict[l[1]] > 0)
+                            {
+                                dict[l[1]] = dict[l[1]] - 1;
+                            }
+                        }
+                        break;
+                    case 3: //Check and print
+                        if(dict.ContainsValue(l[1]))
+                        {
+                            ret.Add(1);
+                        } else
+                        {
+                            ret.Add(0);
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+            return ret;
+        }
+
+        static List<int> freqQueryIf(List<List<int>> queries) {
+            List<int> ret = new List<int>();
+
+            //dict to keep numbers and frequencies
+            Dictionary<int,int> dict = new Dictionary<int, int>();
+
+            foreach (List<int> l in queries)
+            {
+                if(l[0] == 3) //Check and print
+                {
+                    ret.Add(dict.ContainsValue(l[1])?1:0);
+                } 
+                else if(l[0] == 2) //Remove 1 if necessary
+                {
+                    if(dict.ContainsKey(l[1]) && dict[l[1]] > 0)
+                            dict[l[1]]--;
+                } 
+                else
+                {
+                    if(dict.ContainsKey(l[1]))
+                        dict[l[1]]++; //Add++
+                    else
+                        dict.Add(l[1], 1); //1st occurence
+                }
+            }
+            return ret;
+        }
+
+        static List<int> freqQuery2Dicts(List<List<int>> queries) {
+            var returnList = new List<int>();
+            var dictionaryFrequency = new Dictionary<int, int>();
+            var dictionaryOccurencies = new Dictionary<int, int>();
+            bool found;
+
+            foreach (var q in queries)
+            {
+                found = dictionaryFrequency.TryGetValue(q[1], out int value);
+
+                switch (q[0])
+                {
+                    case 1:
+                        if (found)
+                        {
+                            dictionaryFrequency[q[1]]++;
+
+                            dictionaryOccurencies[value]--;
+
+                            if (dictionaryOccurencies.ContainsKey(value + 1))
+                                dictionaryOccurencies[value + 1]++;
+                            else
+                                dictionaryOccurencies.Add(value + 1, 1);
+                        }
+                        else
+                        {
+                            dictionaryFrequency.Add(q[1], 1);
+
+                            if (dictionaryOccurencies.ContainsKey(1))
+                                dictionaryOccurencies[1]++;
+                            else
+                                dictionaryOccurencies.Add(1, 1);
+                        }
+                        break;
+                    case 2:
+                        if (found)
+                        {
+                            if (value > 0)
+                            {
+                                dictionaryFrequency[q[1]]--;
+
+                                dictionaryOccurencies[value]--;
+
+                                if (dictionaryOccurencies.ContainsKey(value - 1))
+                                    dictionaryOccurencies[value - 1]++;
+                                else
+                                    dictionaryOccurencies.Add(value - 1, 1);
+                            }
+                            else
+                            {
+                                dictionaryFrequency.Remove(q[1]);
+                                dictionaryOccurencies[value]--;
+                            }
+                        }
+                        break;
+                    case 3:
+                        if (dictionaryOccurencies.ContainsKey(q[1]))
+                            returnList.Add(1);
+                        else
+                            returnList.Add(0);
+                        break;
+                }
+
+                if (found && dictionaryOccurencies[value] == 0)
+                    dictionaryOccurencies.Remove(value);
+            }
+
+            return returnList;
+        }
+
         #endregion
 
+        #region Sorting
+            //Sorting: Bubble Sort
+        static void countSwaps(int[] a) {
+            int numSwaps = 0;
+            bool isSorted = false;
+            bool foundLastElement = false;
+            int lastElement = a[a.Length-1];
+            int lastUnsortedPosition = a.Length-1;
 
+            while(!isSorted) {
+                //We assume the array is sorted
+                isSorted = true;
+                for(int i = 0; i < lastUnsortedPosition; i++)
+                {
+                    //If element at pos i is bigger than i+1, we need to swap, so we say not sorted yet
+                    if(a[i] > a[i+1])
+                    {
+                        swap(a,i,i+1);
+                        numSwaps++;
+                        isSorted = false;
+                    }
+                }
+                
+                //On the 1st pass of bubbleSort, we keep our last element
+                if(!foundLastElement)
+                {
+                    lastElement = a[lastUnsortedPosition];
+                    foundLastElement = true;
+                }
+                
+                //We improve a litte bubbleSort efficience by shrinking the next pass on the array
+                //since we know the last element is already the biggest one, we do not need to pass thru it again
+                lastUnsortedPosition--;
+            }
+
+            int firstElement = a[0]; 
+
+            Console.WriteLine("Array is sorted in {0} swaps.",numSwaps) ;
+            Console.WriteLine("First Element: {0}", firstElement);
+            Console.WriteLine("Last Element: {0}",lastElement);
+        }
+
+        //Mark & Toys
+
+        #endregion
 
     }
 }
