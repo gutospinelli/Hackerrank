@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace CrackingCoding
 {
-    class Hackerrank
+    public static class Hackerrank
     {
 
         #region Warm-up Challenges
@@ -562,8 +562,7 @@ namespace CrackingCoding
             {
                 //3rd triplet indice "k"
                 if (xk.ContainsKey(key))
-                    count +
-= xk[key];
+                    count += xk[key];
                 if (xj.ContainsKey(key))
                     if (xk.ContainsKey(key*r))
                         xk[key*r] += xj[key];
@@ -724,7 +723,7 @@ namespace CrackingCoding
         #endregion
 
         #region Sorting
-            //Sorting: Bubble Sort
+        //Sorting: Bubble Sort
         static void countSwaps(int[] a) {
             int numSwaps = 0;
             bool isSorted = false;
@@ -766,6 +765,131 @@ namespace CrackingCoding
         }
 
         //Mark & Toys
+        static int maximumToys(int[] prices, int k) {
+            int bought = 0;
+            int spent = 0;
+            var toyPrices = prices;
+            Array.Sort(toyPrices);
+
+            foreach (var toyprice in toyPrices)   
+            {
+                //try to buy a toy
+                spent += toyprice;
+                //if he has the bucks to boy
+                if(spent < k) {
+                    bought++;
+                } else
+                {
+                    //he has no more money, so we don't need to iterate anymore
+                    break;
+                }
+                    
+            }
+
+            return bought;
+        }
+
+        //Sorting Comparator - Java 8
+        /*
+        class Checker implements Comparator<Player> {
+  	        // complete this method
+	        public int compare(Player a, Player b) {
+                if (a.score == b.score) {
+                    return a.name.compareTo(b.name);
+                } else {
+                    return b.score - a.score;
+                }
+            }
+        }
+        */
+
+        //Fraudulent Activity Notifications
+        public static int activityNotificationsBruteForce(int[] expenditure, int d) {
+            int numberOfNotifications = 0;
+            int[] trailingArray = new int[d];
+
+            for (int i = d; i < expenditure.Length; i++)
+            {
+                //get trailing array of size d
+                Array.Copy(expenditure,i-d,trailingArray,0,d);
+                Array.Sort(trailingArray);
+                
+                //if day's expendure greater or equal 2 times median, we send a notice
+                if (expenditure[i] >= 2 * getMedian(trailingArray,d))
+                {
+                    numberOfNotifications++;
+                }
+            }
+            return numberOfNotifications;
+        }
+
+        public static int activityNotifications(int[] expenditure, int d) {
+            int numberOfNotifications = 0;
+            int max = expenditure.Max();
+            int[] expenditureCount = new int[max+1];
+
+            //Fill number of times each expendure appears
+            for (int i = 0; i < d; i++)
+            {
+                expenditureCount[expenditure[i]] = expenditureCount[expenditure[i]] + 1;
+            }
+
+            for (int i = d; i < expenditure.Length; i++)
+            {               
+                //if day's expendure greater or equal 2 times median, we send a notice
+                if (expenditure[i] >= 2 * getMedianFromCount(expenditureCount,d))
+                {
+                    numberOfNotifications++;
+                }
+
+                expenditureCount[expenditure[i]] = expenditureCount[expenditure[i]] + 1;
+                expenditureCount[expenditure[i-d]] = expenditureCount[expenditure[i-d]] - 1;
+            }
+            return numberOfNotifications;
+        }
+
+        static decimal getMedian(int[] arr, int d)
+        {            
+            //is Even
+            if(d%2 == 0)
+                return Decimal.Divide((arr[d/2] + arr[d/2 - 1]),2);
+            else //Odd
+                return arr[d/2];
+        }
+
+        static decimal getMedianFromCount(int[] arr, int d)
+        {
+            int medianCount = 0; //how much to count to find the median element
+            int currentCount = 0;
+            int medianToReturn = 0; //the number at the median position
+
+            if(d % 2 == 0)
+                medianCount = d/2;
+            else
+                medianCount = d/2 + 1;
+
+            for (int i = 0; i < arr.Length; i++)
+            {
+                currentCount += arr[i];
+
+                if (currentCount >= medianCount)
+                {
+                    if (medianToReturn > 0)
+                    {
+                        return (medianToReturn + i) / 2m;
+                    }
+
+                    medianToReturn = i;
+
+                    if (d % 2 != 0 || currentCount > medianCount)
+                    { 
+                        return medianToReturn;
+                    }
+                }
+            }
+
+            return medianToReturn;
+        }
 
         #endregion
 
