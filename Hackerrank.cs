@@ -121,7 +121,7 @@ namespace CrackingCoding
 
         #region Arrays
         //2D Array - DS
-        static int hourglassSum(int[][] arr) {
+        public static int hourglassSum(int[][] arr) {
             int currentHourglass = 0;
             int maxHourglass = -9 * 7; //We start maximum as the minimum hourglass possible
 
@@ -146,7 +146,7 @@ namespace CrackingCoding
         }
 
         // Left Rotation
-        static int[] rotLeft(int[] a, int d) {
+        public static int[] rotLeft(int[] a, int d) {
             int[] rotatedArray = new int[a.Length]; //array that will receive rotated ints
             
             for (int i = 0; i < a.Length ; i++) { //foreach item in array, execute d left rotations and put in right position
@@ -170,7 +170,7 @@ namespace CrackingCoding
 
         //New Year Chaos
         //Received timeout on hackerhank
-        static void minimumBribes(int[] q) {
+        public static void minimumBribes(int[] q) {
         //idea: no person can be more than 2 pos in front of its value/sticker
         //if a person is more than 2 pos in front, stop and print "too chaotic"
         //if a person is in fronf of it's value/sticker count the # of bribes: 1 or 2
@@ -220,7 +220,7 @@ namespace CrackingCoding
             }
 
         }
-        static void minimumBribes2(int[] q) {
+        public static void minimumBribes2(int[] q) {
 
             int bribes = 0 ; 
 
@@ -264,7 +264,7 @@ namespace CrackingCoding
         }
 
         //Minimum Swaps 2
-        static int minimumSwaps(int[] arr) {       
+        public static int minimumSwaps(int[] arr) {       
             int n = arr.Length - 1;
             int minSwaps = 0;
             for (int i = 0; i < n; i++) {
@@ -283,7 +283,7 @@ namespace CrackingCoding
         }
 
         //Array Manipulation
-        static long arrayManipulation(int n, int[][] queries) {
+        public static long arrayManipulation(int n, int[][] queries) {
         //idea: go adding values to the array and updating max if necessary. Return max
             long max = long.MinValue;
             int a, b;
@@ -311,7 +311,7 @@ namespace CrackingCoding
             return max;
         }
 
-        static long arrayManipulationSlopeSolution(int n, int[][] queries) {
+        public static long arrayManipulationSlopeSolution(int n, int[][] queries) {
         //idea: instead of adding value to array, we control where it started do climb (a) and where it stopped (b+1). A.K.A Slope increase
             long max = 0;
             long tempMax = 0;
@@ -348,7 +348,7 @@ namespace CrackingCoding
         #region Dictionaries and Hashmaps
 
         //HashTables: Ransom Note
-        static void checkMagazine(string[] magazine, string[] note) {
+        public static void checkMagazine(string[] magazine, string[] note) {
             Dictionary<string, int> dMagazine = new Dictionary<string, int>();
             Dictionary<string, int> dNote = new Dictionary<string, int>();
             string canReplicate = "Yes";
@@ -411,7 +411,7 @@ namespace CrackingCoding
         }
         
         //Two Strings
-        static string twoStrings(string s1, string s2) {
+        public static string twoStrings(string s1, string s2) {
             
             Dictionary<char,int> dict1 = new Dictionary<char, int>();
             Dictionary<char,int> dict2 = new Dictionary<char, int>();
@@ -450,7 +450,7 @@ namespace CrackingCoding
         }
         
         //Sherlock and Anagrams
-        static int sherlockAndAnagrams(string s) {
+        public static int sherlockAndAnagrams(string s) {
             int numberOfAnagrams = 0;
             string subStr;
                      
@@ -481,7 +481,7 @@ namespace CrackingCoding
         }
 
         //Count Triplets
-        static long countTriplets(List<long> arr, long r) {
+        public static long countTriplets(List<long> arr, long r) {
             long xi; //expected i
             long xj; //Xpected j
             long xk; //Xpected k
@@ -516,7 +516,7 @@ namespace CrackingCoding
 
         }
 
-        static long countTripletsOptimized(List<long> arr, long r) {
+        public static long countTripletsOptimized(List<long> arr, long r) {
             long xi; //expected i
             long xj; //Xpected j
             long xk; //Xpected k
@@ -553,7 +553,7 @@ namespace CrackingCoding
 
         }
 
-        static long countTripletsOptimized2(List<long> arr, long r)         {
+        public static long countTripletsOptimized2(List<long> arr, long r)         {
             Dictionary<long,long> xj = new Dictionary<long, long>(); //Xpected js
             Dictionary<long,long> xk = new Dictionary<long, long>(); //Xpected ks
             long count = 0;
@@ -579,7 +579,7 @@ namespace CrackingCoding
         }
         
         //Frequency Queries
-        static List<int> freqQuery(List<List<int>> queries) {
+        public static List<int> freqQuery(List<List<int>> queries) {
             List<int> ret = new List<int>();
 
             //dict to keep numbers and frequencies
@@ -622,7 +622,7 @@ namespace CrackingCoding
             return ret;
         }
 
-        static List<int> freqQueryIf(List<List<int>> queries) {
+        public static List<int> freqQueryIf(List<List<int>> queries) {
             List<int> ret = new List<int>();
 
             //dict to keep numbers and frequencies
@@ -650,7 +650,7 @@ namespace CrackingCoding
             return ret;
         }
 
-        static List<int> freqQuery2Dicts(List<List<int>> queries) {
+        public static List<int> freqQuery2Dicts(List<List<int>> queries) {
             var returnList = new List<int>();
             var dictionaryFrequency = new Dictionary<int, int>();
             var dictionaryOccurencies = new Dictionary<int, int>();
@@ -724,7 +724,7 @@ namespace CrackingCoding
 
         #region Sorting
         //Sorting: Bubble Sort
-        static void countSwaps(int[] a) {
+        public static void countSwaps(int[] a) {
             int numSwaps = 0;
             bool isSorted = false;
             bool foundLastElement = false;
@@ -765,7 +765,7 @@ namespace CrackingCoding
         }
 
         //Mark & Toys
-        static int maximumToys(int[] prices, int k) {
+        public static int maximumToys(int[] prices, int k) {
             int bought = 0;
             int spent = 0;
             var toyPrices = prices;
@@ -842,6 +842,7 @@ namespace CrackingCoding
                     numberOfNotifications++;
                 }
 
+                //Move window
                 expenditureCount[expenditure[i]] = expenditureCount[expenditure[i]] + 1;
                 expenditureCount[expenditure[i-d]] = expenditureCount[expenditure[i-d]] - 1;
             }
@@ -889,6 +890,53 @@ namespace CrackingCoding
             }
 
             return medianToReturn;
+        }
+
+        //Counting Inversions
+        private static long countInversions(int[] arr) {
+            return mergeSort(arr, 0, arr.Length - 1);
+        }
+
+        public static long mergeSort(int[] a, int start, int end) {
+            if (start == end)
+                return 0;
+
+            int mid = (start + end) / 2;
+            long inversions = mergeSort(a, start, mid) +
+                              mergeSort(a, mid + 1, end) +
+                              merge(a, start, end);
+            return inversions;
+        }
+
+        public static long merge(int[] a, int start, int end) {
+            int[] tmp = new int[end - start + 1];
+            long inversions = 0;
+
+            int mid = (start + end) / 2;
+
+            int i = start;
+            int j = mid + 1;
+            int k = 0;
+
+            while (i <= mid && j <= end) {
+                if (a[i] > a[j]) {
+                    tmp[k++] = a[j++];
+                    inversions += mid - i + 1;
+                } else {
+                    tmp[k++] = a[i++];
+                }
+            }
+
+            while (i <= mid) {
+                tmp[k++] = a[i++];
+            }
+
+            while (j <= end) {
+                tmp[k++] = a[j++];
+            }
+
+            Array.Copy(tmp, 0, a, start, end - start + 1);
+            return inversions;
         }
 
         #endregion
