@@ -941,5 +941,51 @@ namespace CrackingCoding
 
         #endregion
 
+        #region String Manipulation
+        //Making Anagrams
+        static int makeAnagram(string a, string b)
+        {
+            Dictionary<char, int> dictSmaller = new Dictionary<char, int>();
+
+            string smaller, bigger;
+            int numEqualChars = 0;
+
+
+            if (a.Length <= b.Length)
+            {
+                smaller = a;
+                bigger = b;
+            }
+            else
+            {
+                smaller = b;
+                bigger = a;
+            }
+
+            foreach (char c in smaller)
+            {
+                if (dictSmaller.ContainsKey(c))
+                {
+                    dictSmaller[c]++;
+                }
+                else
+                {
+                    dictSmaller[c] = 1;
+                }
+            }
+            foreach (char c in bigger)
+            {
+                if (dictSmaller.ContainsKey(c) && dictSmaller[c] >= 1)
+                {
+                    numEqualChars = numEqualChars + 2;
+                    dictSmaller[c]--;
+                }
+            }
+
+            return a.Length + b.Length - numEqualChars;
+
+        }
+        #endregion
+
     }
 }
